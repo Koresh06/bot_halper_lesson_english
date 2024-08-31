@@ -11,14 +11,10 @@ async def username_getter(
     **kwargs,
 ):
     user = await repo.users.check_user(event_from_user.id)
-    if user:
-        try:
-            await repo.users.add_user(event_from_user.id)
-        except Exception as ex:
-            print(ex)
 
     return {
         "username": event_from_user.username,
         "new_user": not user,
         "not_new_user": user,
     }
+

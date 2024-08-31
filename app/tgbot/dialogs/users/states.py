@@ -7,6 +7,7 @@ class StartSG(StatesGroup):
     name = State()
     age = State()
     phone = State()
-    study_format = State()
+    study_goal = State()
     has_studied_before = State()
+    study_format = State()
 

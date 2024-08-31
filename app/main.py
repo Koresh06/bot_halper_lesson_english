@@ -22,8 +22,6 @@ logger = logging.getLogger(__name__)
 engine = create_engine_db(settings.db)
 sessionmaker = create_sessionmaker(engine)
 
-
-
 dp.update.middleware(DbSessionMiddleware(sessionmaker=sessionmaker))
 
 dp.include_routers(start_dialog)
