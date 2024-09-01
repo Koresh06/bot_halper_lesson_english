@@ -2,4 +2,4 @@ all = [
     'User',
 ]
 
-from core.repo.query.users_query import UserRepo
+from app.core.repo.query.users_query import UserRepo

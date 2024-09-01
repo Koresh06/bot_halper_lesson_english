@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from core.repo.query import UserRepo
+from app.core.repo.query import UserRepo
 
 
 

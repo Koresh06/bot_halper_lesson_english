@@ -2,7 +2,7 @@
 from aiogram import Bot, Dispatcher
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
-from settings import settings
+from app.settings import settings
 
 bot = Bot(
     token=settings.bot.token,

@@ -1,8 +1,8 @@
-"""Initial table users
+"""create table
 
-Revision ID: f38a696cb3ce
+Revision ID: 3d87965b572e
 Revises: 
-Create Date: 2024-08-29 23:03:31.393785
+Create Date: 2024-09-01 18:01:16.919226
 
 """
 from typing import Sequence, Union
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = 'f38a696cb3ce'
+revision: str = '3d87965b572e'
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -30,10 +30,10 @@ def upgrade() -> None:
     sa.Column('study_goal', sa.Text(), nullable=False),
     sa.Column('has_studied_before', sa.Boolean(), nullable=False),
     sa.Column('study_format', sa.Enum('ONLINE', 'OFFLINE', name='studyformatenum'), nullable=False),
+    sa.Column('training_format', sa.Enum('GROUP', 'PAIR', 'INDIVIDUAL', name='trainingformatenum'), nullable=False),
     sa.PrimaryKeyConstraint('id', name=op.f('pk__users')),
     sa.UniqueConstraint('tg_id', name=op.f('uq__users__tg_id'))
     )
-    # ### end Alembic commands ###
 
 
 def downgrade() -> None:

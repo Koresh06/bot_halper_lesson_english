@@ -6,6 +6,7 @@ env.read_env()
 
 class TgBot:
     token = env('BOT_TOKEN')
+    admin_ids = env('ADMIN_ID')
 
 
 

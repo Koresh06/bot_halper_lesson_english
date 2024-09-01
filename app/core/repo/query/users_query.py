@@ -1,9 +1,9 @@
 from typing import Optional
 
 from sqlalchemy import select, Result
-from core.models import User
+from app.core.models import User
 
-from core.repo.base import BaseRepo
+from app.core.repo.base import BaseRepo
 
 
 class UserRepo(BaseRepo):
@@ -28,6 +28,7 @@ class UserRepo(BaseRepo):
                 study_goal=data.get("study_goal"),
                 has_studied_before=data.get("has_studied_before"),
                 study_format=data.get("study_format"),
+                training_format=data.get("training_format"),
             )
             self.session.add(new_user)
             await self.session.commit()

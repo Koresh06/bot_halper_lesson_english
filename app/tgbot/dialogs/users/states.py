@@ -10,4 +10,5 @@ class StartSG(StatesGroup):
     study_goal = State()
     has_studied_before = State()
     study_format = State()
+    training_format = State()
 

@@ -5,10 +5,10 @@ from aiogram_dialog import Dialog, DialogManager, StartMode, Window
 from aiogram_dialog.widgets.text import Format, Const
 from aiogram_dialog.widgets.input import TextInput, MessageInput
 from aiogram_dialog.widgets.kbd import Button, Next, Row
-from tgbot.bot import dp
-from tgbot.dialogs.users.getters import username_getter
-from tgbot.dialogs.users.states import StartSG
-from tgbot.dialogs.users.handlers import (
+from app.tgbot.bot import dp
+from app.tgbot.dialogs.users.getters import username_getter
+from app.tgbot.dialogs.users.states import StartSG
+from app.tgbot.dialogs.users.handlers import (
     correct_age_handler,
     correct_name_handler,
     correct_phone_handler,
@@ -17,12 +17,11 @@ from tgbot.dialogs.users.handlers import (
     error_name_handler,
     error_phone_handler,
     error_study_goal_handler,
-    has_studied_before_no_handler,
-    has_studied_before_yes_handler,
-    study_format_offline_handler,
-    study_format_online_handler,
+    has_studied_before_handler,
+    study_format_handler,
+    training_handler,
 )
-from tgbot.dialogs.users.utils import (
+from app.tgbot.dialogs.users.utils import (
     age_check,
     study_goal_check, 
     name_check, 
@@ -84,33 +83,53 @@ start_dialog = Dialog(
         Row(
             Button(
                 Const("✅ Да"),
-                id="has_studied_before_yes",
-                on_click=has_studied_before_yes_handler,
+                id="yes",
+                on_click=has_studied_before_handler,
             ),
             Button(
                 Const("❌ Нет"),
-                id="has_studied_before_no",
-                on_click=has_studied_before_no_handler,
+                id="no",
+                on_click=has_studied_before_handler,
             )
         ),
         state=StartSG.has_studied_before,
     ),
     Window(
-        Const(text="Укажите предпочитаемы формат обучения"),
+        Const(text="Укажите предпочитаемый формат обучения"),
         Row(
             Button(
                 Const("Онлайн"),
-                id="study_format_online",
-                on_click=study_format_online_handler,
+                id="online",
+                on_click=study_format_handler,
             ),
             Button(
                 Const("Оффлайн"),
-                id="study_format_offline",
-                on_click=study_format_offline_handler,
+                id="offline",
+                on_click=study_format_handler,
             )
         ),
         state=StartSG.study_format,
-        # getter=study_format_offline,
+    ),
+    Window(
+        Const(text="Как вы хотите обучаться?"),
+        Row(
+            Button(
+                Const("Гупповое"),
+                id="group",
+                on_click=training_handler,
+            ),
+            Button(
+                Const("Парное"),
+                id="pair",
+                on_click=training_handler,
+            ),
+            Button(
+                Const("Индивидуальное"),
+                id="individual",
+                on_click=training_handler,
+            )
+        ),
+        state=StartSG.training_format,
     )
 )
 

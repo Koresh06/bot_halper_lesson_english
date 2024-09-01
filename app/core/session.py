@@ -7,7 +7,7 @@ from sqlalchemy.ext.asyncio import (
     create_async_engine,
 )
 
-from settings import DbConfig
+from app.settings import DbConfig
 
 
 def create_pool(db_config: DbConfig) -> async_sessionmaker[AsyncSession]:

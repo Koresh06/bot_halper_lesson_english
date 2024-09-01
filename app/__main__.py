@@ -2,30 +2,24 @@ import asyncio
 import logging
 
 from aiogram_dialog import setup_dialogs
-from core.session import create_engine_db, create_sessionmaker
-from tgbot.middlewares.db_session import DbSessionMiddleware
+from app.core.session import create_engine_db, create_sessionmaker
+from app.tgbot.middlewares.db_session import DbSessionMiddleware
 
-# from app.tgbot.dialogs import dialogs_list
-# from app.tgbot.handlers import router_list
+from app.tgbot.bot import dp, bot
+from app.tgbot.dialogs.users.users_dialog import start_dialog
 
-# from app.tgbot.filters.filter import Admin
-from tgbot.bot import dp, bot
-from tgbot.dialogs.users.users_dialog import start_dialog
-
-from settings import settings
+from app.settings import settings
 
 
 logger = logging.getLogger(__name__)
 
 
-# Инициализация движка и сессии БД
 engine = create_engine_db(settings.db)
 sessionmaker = create_sessionmaker(engine)
 
 dp.update.middleware(DbSessionMiddleware(sessionmaker=sessionmaker))
 
 dp.include_routers(start_dialog)
-
 
 setup_dialogs(dp)
 

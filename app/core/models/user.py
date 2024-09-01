@@ -1,9 +1,9 @@
-from typing import List, TYPE_CHECKING
+from typing import TYPE_CHECKING
 from enum import Enum as PyEnum
 from sqlalchemy import BigInteger, Enum, String, Integer, Boolean, Text
-from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy.orm import Mapped, mapped_column
 
-from core.models.base import Base
+from app.core.models.base import Base
 
 if TYPE_CHECKING:
     pass
@@ -12,6 +12,11 @@ if TYPE_CHECKING:
 class StudyFormatEnum(PyEnum):
     ONLINE = "online"
     OFFLINE = "offline"
+
+class TrainingFormatEnum(PyEnum):
+    GROUP = "group"
+    PAIR = "pair"
+    INDIVIDUAL = "individual"
 
 
 class User(Base):
@@ -26,6 +31,7 @@ class User(Base):
     study_goal: Mapped[str] = mapped_column(Text, nullable=False) 
     has_studied_before: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
     study_format: Mapped[StudyFormatEnum] = mapped_column(Enum(StudyFormatEnum), nullable=False)
+    training_format: Mapped[TrainingFormatEnum] = mapped_column(Enum(TrainingFormatEnum), nullable=False)
 
     def __repr__(self) -> str:
         return (
