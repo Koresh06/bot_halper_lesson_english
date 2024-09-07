@@ -21,7 +21,7 @@ class UserRepo(BaseRepo):
         try:
             new_user = User(
                 tg_id=tg_id,
-                username=data.get("username"),
+                username=username,
                 name=data.get("name"),
                 age=int(data.get("age")),
                 phone=data.get("phone"),

@@ -1,12 +1,12 @@
 from typing import TYPE_CHECKING
 from enum import Enum as PyEnum
 from sqlalchemy import BigInteger, Enum, String, Integer, Boolean, Text
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.core.models.base import Base
 
 if TYPE_CHECKING:
-    pass
+    from app.core.models import Lesson
 
 
 class StudyFormatEnum(PyEnum):
@@ -24,7 +24,7 @@ class User(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     tg_id: Mapped[int] = mapped_column(BigInteger, unique=True, nullable=False)
-    username: Mapped[str] = mapped_column(String(100), nullable=True)
+    username: Mapped[str] = mapped_column(String(100), unique=True, nullable=True)
     name: Mapped[str] = mapped_column(String(100), nullable=False)
     age: Mapped[int] = mapped_column(Integer, nullable=False)
     phone: Mapped[str] = mapped_column(String(20), nullable=False)
@@ -32,6 +32,8 @@ class User(Base):
     has_studied_before: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
     study_format: Mapped[StudyFormatEnum] = mapped_column(Enum(StudyFormatEnum), nullable=False)
     training_format: Mapped[TrainingFormatEnum] = mapped_column(Enum(TrainingFormatEnum), nullable=False)
+
+    lesson_rel: Mapped[list["Lesson"]] = relationship("Lesson", back_populates="user_rel", cascade="all, delete")
 
     def __repr__(self) -> str:
         return (

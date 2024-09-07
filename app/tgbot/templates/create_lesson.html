@@ -1,0 +1,22 @@
+{% include 'base.html' %}
+
+{% block content %}
+
+<div class="container">
+    <h2>Форма создания урока</h2>
+    <form action="/lessons/submit-lesson" method="post">
+        <label for="user">Выберите Пользователя:</label>
+        <select id="user" name="user_id" required>
+            {% for user in users %}
+                <option value="{{ user.id }}">{{ user.username }}</option>
+            {% endfor %}
+        </select>
+        <label for="date">Дата:</label>
+        <input type="date" id="date" name="lesson_date" required>
+        <label for="time">Время:</label>
+        <input type="time" id="time" name="lesson_time" required>
+        <button type="submit" class="btn btn-success">Создать Урок</button>
+    </form>
+</div>
+
+{% endblock %}

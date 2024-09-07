@@ -1,42 +1,55 @@
+# app/__main__.py
 import asyncio
 import logging
+import uvicorn
 
 from aiogram_dialog import setup_dialogs
-from app.core.session import create_engine_db, create_sessionmaker
+from fastapi import FastAPI
+from app.core.db_helper import db_helper
 from app.tgbot.middlewares.db_session import DbSessionMiddleware
 
 from app.tgbot.bot import dp, bot
 from app.tgbot.dialogs.users.users_dialog import start_dialog
-
 from app.settings import settings
+from app.fastapi import app
 
 
 logger = logging.getLogger(__name__)
 
-
-engine = create_engine_db(settings.db)
-sessionmaker = create_sessionmaker(engine)
-
-dp.update.middleware(DbSessionMiddleware(sessionmaker=sessionmaker))
-
+# Установка middleware и роутеров для бота
+dp.update.middleware(DbSessionMiddleware(sessionmaker=db_helper.sessionmaker))
 dp.include_routers(start_dialog)
-
 setup_dialogs(dp)
+
 
 # Функция для запуска бота
 async def start_bot():
     logging.basicConfig(
         level=logging.INFO,
-        format='%(filename)s:%(lineno)d #%(levelname)-8s '
-               '[%(asctime)s] - %(name)s - %(message)s'
+        format="%(filename)s:%(lineno)d #%(levelname)-8s "
+               "[%(asctime)s] - %(name)s - %(message)s",
     )
-    logger.info('Staring bot')
+    logger.info("Starting bot")
     await bot.delete_webhook(drop_pending_updates=True)
     await dp.start_polling(bot)
-    
 
-if __name__ == '__main__':
+# Функция для запуска FastAPI и бота
+async def main():
+    # Запуск бота в фоне
+    asyncio.create_task(start_bot())
+
+    # Запуск FastAPI приложения
+    config = uvicorn.Config(
+        "app.fastapi:app",  # Теперь указываем правильный путь к FastAPI приложению
+        host=settings.api.host,
+        port=settings.api.port,
+        log_level="info",
+    )
+    server = uvicorn.Server(config)
+    await server.serve()
+
+if __name__ == "__main__":
     try:
-        asyncio.run(start_bot())
+        asyncio.run(main())
     except KeyboardInterrupt as exxit:
-        logger.info(f'Бот закрыт: {exxit}')
+        logger.info(f"Бот закрыт: {exxit}")

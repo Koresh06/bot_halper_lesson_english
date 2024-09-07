@@ -4,7 +4,7 @@ from aiogram.enums import ContentType
 from aiogram_dialog import Dialog, DialogManager, StartMode, Window
 from aiogram_dialog.widgets.text import Format, Const
 from aiogram_dialog.widgets.input import TextInput, MessageInput
-from aiogram_dialog.widgets.kbd import Button, Next, Row
+from aiogram_dialog.widgets.kbd import Button, Next, Row, Back
 from app.tgbot.bot import dp
 from app.tgbot.dialogs.users.getters import username_getter
 from app.tgbot.dialogs.users.states import StartSG
@@ -45,6 +45,9 @@ start_dialog = Dialog(
             on_success=correct_name_handler,
             on_error=error_name_handler,
         ),
+        Back(
+            Const('◀️ Назад'), id='back'
+        ),
         state=StartSG.name,
     ),
     Window(
@@ -54,6 +57,9 @@ start_dialog = Dialog(
             type_factory=age_check,
             on_success=correct_age_handler,
             on_error=error_age_handler,
+        ),
+        Back(
+            Const('◀️ Назад'), id='back'
         ),
         state=StartSG.age,
     ),
@@ -65,6 +71,9 @@ start_dialog = Dialog(
             on_success=correct_phone_handler,
             on_error=error_phone_handler,
         ),
+        Back(
+            Const('◀️ Назад'), id='back'
+        ),
         state=StartSG.phone,
     ),
     Window(
@@ -75,6 +84,9 @@ start_dialog = Dialog(
             on_success=correct_study_goal_handler,
             on_error=error_study_goal_handler,
 
+        ),
+        Back(
+            Const('◀️ Назад'), id='back'
         ),
         state=StartSG.study_goal,
     ),
@@ -92,6 +104,9 @@ start_dialog = Dialog(
                 on_click=has_studied_before_handler,
             )
         ),
+        Back(
+            Const('◀️ Назад'), id='back'
+        ),
         state=StartSG.has_studied_before,
     ),
     Window(
@@ -107,6 +122,9 @@ start_dialog = Dialog(
                 id="offline",
                 on_click=study_format_handler,
             )
+        ),
+        Back(
+            Const('◀️ Назад'), id='back'
         ),
         state=StartSG.study_format,
     ),
@@ -128,6 +146,9 @@ start_dialog = Dialog(
                 id="individual",
                 on_click=training_handler,
             )
+        ),
+        Back(
+            Const('◀️ Назад'), id='back'
         ),
         state=StartSG.training_format,
     )

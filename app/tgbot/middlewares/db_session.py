@@ -9,11 +9,8 @@ from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 from app.core.repo.requests import RequestsRepo
 
 
-logger = logging.getLogger(__name__)
-
-
 class DbSessionMiddleware(BaseMiddleware):
-    def __init__(self,sessionmaker: async_sessionmaker[AsyncSession]) -> None:
+    def __init__(self, sessionmaker: async_sessionmaker[AsyncSession]) -> None:
         super().__init__()
         self.sessionmaker = sessionmaker
 

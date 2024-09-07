@@ -4,6 +4,11 @@ env = Env()
 env.read_env()
 
 
+class ApiConfig:
+    host: str = env('API_HOST')
+    port: int = env.int('API_PORT')
+
+
 class TgBot:
     token = env('BOT_TOKEN')
     admin_ids = env('ADMIN_ID')
@@ -26,6 +31,7 @@ class DbConfig:
 class Settings:
     bot = TgBot()
     db = DbConfig()
+    api = ApiConfig()
 
 
 settings = Settings()
