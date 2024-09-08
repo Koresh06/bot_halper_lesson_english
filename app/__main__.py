@@ -11,7 +11,7 @@ from app.tgbot.middlewares.db_session import DbSessionMiddleware
 from app.tgbot.bot import dp, bot
 from app.tgbot.dialogs.users.users_dialog import start_dialog
 from app.settings import settings
-from app.fastapi import app
+from app.main import app
 
 
 logger = logging.getLogger(__name__)
@@ -40,7 +40,7 @@ async def main():
 
     # Запуск FastAPI приложения
     config = uvicorn.Config(
-        "app.fastapi:app", 
+        "app.main:app", 
         host=settings.api.host,
         port=settings.api.port,
         log_level="info",
