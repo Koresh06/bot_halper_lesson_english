@@ -157,7 +157,7 @@ async def training_handler(
     data = dialog_manager.dialog_data
 
     await callback.message.bot.send_message(
-        chat_id=settings.bot.admin_ids,
+        chat_id=settings.bot.admin_id,
         text=(
             f"👤 *Новый пользователь:*\n"
             f"   — Имя: *{data['name']}*\n"

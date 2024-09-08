@@ -40,10 +40,11 @@ async def main():
 
     # Запуск FastAPI приложения
     config = uvicorn.Config(
-        "app.fastapi:app",  # Теперь указываем правильный путь к FastAPI приложению
+        "app.fastapi:app", 
         host=settings.api.host,
         port=settings.api.port,
         log_level="info",
+        reload=True,
     )
     server = uvicorn.Server(config)
     await server.serve()

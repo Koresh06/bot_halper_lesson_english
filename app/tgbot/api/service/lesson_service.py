@@ -6,20 +6,11 @@ from sqlalchemy import select, Result, desc
 from app.core.models import User, Lesson
 
 
-class UsersService:
+class LessonsService:
 
     def __init__(self, session: AsyncSession):
         self.session = session
 
-    async def get_users(self) -> List[User]:
-        stmt = select(User).order_by(desc(User.id))
-        result: Result = await self.session.scalars(stmt)
-        return result
-
-    async def get_user(self, tg_id: int) -> User:
-        stmt = select(User).where(User.tg_id == tg_id)
-        result: Result = await self.session.scalars(stmt)
-        return result.first()
 
     async def create_lesson(
         self,
@@ -35,11 +26,13 @@ class UsersService:
         self.session.add(new_lesson)
         await self.session.commit()
         return new_lesson
+    
 
-    async def get_user_id(self, user_id: int) -> int:
-        stmt = select(User.tg_id).where(User.id == user_id)
+    async def get_lesson(self, lesson_id: int) -> Lesson:
+        stmt = select(Lesson).where(Lesson.id == lesson_id)
         result: Result = await self.session.scalar(stmt)
         return result
+    
 
     async def get_lessons(self) -> List[dict]:
         stmt = select(Lesson, User.username).join(User, Lesson.user_id == User.id)
@@ -58,9 +51,26 @@ class UsersService:
             for lesson, username in lessons
         ]
     
+
     async def delete_lesson(self, lesson_id: int):
         stmt = select(Lesson).where(Lesson.id == lesson_id)
         result: Result = await self.session.scalar(stmt)
 
         await self.session.delete(result)
         await self.session.commit()
+
+
+    async def edit_lesson(self,
+        lesson_id: int,
+        user_id: int,
+        lesson_date: date,
+        lesson_time: time,
+    ) -> Lesson:
+        stmt = select(Lesson).where(Lesson.id == lesson_id)
+        result: Result = await self.session.scalar(stmt)
+        result.user_id = user_id
+        result.lesson_date = lesson_date
+        result.lesson_time = lesson_time
+        self.session.add(result)
+        await self.session.commit()
+        return result

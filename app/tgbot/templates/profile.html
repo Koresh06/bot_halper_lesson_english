@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h3>Профиль {{ user.username or user.name }}</h3>
+                </div>
+                <div class="card-body">
+                    <h4>Имя: {{ user.name }}</h4>
+                    <p><strong>Имя пользователя:</strong> {{ user.username or 'Не указано' }}</p>
+                    <p><strong>Возраст:</strong> {{ user.age }}</p>
+                    <p><strong>Телефон:</strong> {{ user.phone }}</p>
+                    <p><strong>Цель обучения:</strong> {{ user.study_goal }}</p>
+                    <p><strong>Ранее обучался:</strong> {{ 'Да' if user.has_studied_before else 'Нет' }}</p>
+                    <p><strong>Формат обучения:</strong> {{ user.study_format.value }}</p>
+                    <p><strong>Формат тренировок:</strong> {{ user.training_format.value }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

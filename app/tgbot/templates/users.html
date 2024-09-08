@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4 text-center">Список пользователей</h2>
+    <table class="table table-hover text-center">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col">№</th>
+                <th scope="col">Имя</th>
+                <th scope="col">Имя пользователя</th>
+                <th scope="col">Профиль</th>
+                <th scope="col">Telegram</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ user.name or 'Не указано' }}</td>
+                <td>{{ user.username or 'Не указано' }}</td>
+                <td>
+                    <a href="/users/profile/{{ user.id }}" class="btn btn-outline-primary">
+                        <i class="bi bi-person-circle"></i> Профиль
+                    </a>
+                </td>
+                <td>
+                    <a href="https://t.me/{{ user.username }}" class="btn btn-outline-info" target="_blank">
+                        <i class="bi bi-telegram"></i> Telegram
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

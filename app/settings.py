@@ -7,11 +7,12 @@ env.read_env()
 class ApiConfig:
     host: str = env('API_HOST')
     port: int = env.int('API_PORT')
+    web_server_admin: str = env('WEB_SERVER_ADMIN')
 
 
 class TgBot:
     token = env('BOT_TOKEN')
-    admin_ids = env('ADMIN_ID')
+    admin_id = int(env('ADMIN_ID'))
 
 
 

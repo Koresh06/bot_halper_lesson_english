@@ -3,12 +3,8 @@
 {% block content %}
 <div class="container-fluid">
     <div class="card text-center">
-        <div class="card-header">
-            Расписание занятий!
-        </div>
         <div class="card-body">
-            <h5 class="card-title">Список уроков!</h5>
-            <p class="card-text">Информация о задачах, которые нужно выполнить</p>
+            <h5 class="card-title">Расписание занятий!</h5>
 
             <table class="table table-hover">
                 <thead>
@@ -17,6 +13,7 @@
                         <th scope="col">Пользователь</th>
                         <th scope="col">Дата</th>
                         <th scope="col">Время</th>
+                        <th scope="col">Telegram</th>
                         <th scope="col">Действия</th>
                     </tr>
                 </thead>
@@ -24,12 +21,21 @@
                     {% for lesson in lessons %}
                     <tr>
                         <th scope="row">{{ loop.index }}</th>
-                        <td>{{ lesson.username }}</td>
+                        <td>
+                            <a href="/users/profile/{{ lesson.user_id }}" class="btn btn-outline-primary"><i class="bi bi-person-circle"></i> {{ lesson.username }}</a>
+                        </td>
                         <td>{{ lesson.lesson_date }}</td>
                         <td>{{ lesson.lesson_time }}</td>
+                        <td><a href="https://t.me/{{ lesson.username }}" class="btn btn-info" target="_blank">
+                            <i class="bi bi-telegram"></i>
+                        </a></td>
                         <td>
-                            <a href="/lessons/edit-lesson/{{ lesson.id }}" class="btn btn-primary">Редактировать</a>
-                            <a href="/lessons/delete-lesson/{{ lesson.id }}" class="btn btn-danger">Удалить</a>
+                            <a href="/lessons/edit-lesson/{{ lesson.id }}" class="btn btn-primary" >
+                                <i class="bi bi-pencil-square"></i>
+                            </a>
+                            <a href="/lessons/delete-lesson/{{ lesson.id }}" class="btn btn-danger">
+                                <i class="bi bi-trash"></i>
+                            </a>
                         </td>
                     </tr>
                     {% endfor %}
