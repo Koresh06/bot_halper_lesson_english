@@ -16,6 +16,6 @@ ENV PYTHONPATH="${PYTHONPATH}:/app"
 
 
 # Применяем миграции Alembic
-RUN poetry run app/alembic upgrade head
+RUN alembic upgrade head
 
 CMD ["poetry", "run", "python", "app/__main__.py"]
