@@ -52,11 +52,13 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    command: poetry run alembic upgrade head
+    command: ["poetry", "run", "alembic", "upgrade", "head"]
     depends_on:
       - postgres
     environment:
       DATABASE_URL: postgres://postgres:12345@postgres:5432/engl
+    volumes:
+      - .:/app
 
 volumes:
   01-simple-alchemy-pgadmin:
