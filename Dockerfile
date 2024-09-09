@@ -1,6 +1,6 @@
 FROM python:3.11.9
 
-WORKDIR /project
+WORKDIR /app
 
 COPY pyproject.toml poetry.lock ./
 RUN pip install poetry
@@ -16,6 +16,6 @@ ENV PYTHONPATH="${PYTHONPATH}:/app"
 
 
 # Применяем миграции Alembic
-RUN poetry run alembic upgrade head
+RUN poetry run app/alembic upgrade head
 
 CMD ["poetry", "run", "python", "app/__main__.py"]
