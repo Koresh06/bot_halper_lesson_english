@@ -14,6 +14,10 @@ COPY . .
 
 ENV PYTHONPATH="${PYTHONPATH}:/app"
 
+# Проверяем содержимое директорий
+RUN ls -l /app
+RUN ls -l /app/alembic
+
 # Применяем миграции Alembic
 RUN poetry run alembic upgrade head
 
