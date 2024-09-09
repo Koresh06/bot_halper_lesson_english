@@ -14,13 +14,13 @@ COPY . .
 
 ENV PYTHONPATH="${PYTHONPATH}:/app"
 
-# Проверяем наличие каталогов и файлов внутри контейнера
+# Проверяем наличие файлов и каталогов
 RUN ls -l /app
 RUN ls -l /app/alembic || echo "Directory /app/alembic does not exist"
 RUN cat /app/alembic.ini || echo "File /app/alembic.ini does not exist"
 
-# Применяем миграции Alembic
+# Проверяем версию alembic
 RUN poetry run alembic --version
-RUN poetry run alembic upgrade head
 
-CMD ["poetry", "run", "python", "app/__main__.py"]
+# Установите ENTRYPOINT для контейнера, чтобы можно было переопределять команды в docker-compose.yml
+ENTRYPOINT ["poetry", "run"]
