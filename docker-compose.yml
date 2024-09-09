@@ -1,53 +1,28 @@
-version: '3.11'
+version: '3'
 
 services:
   postgres:
-    image: postgres:14-alpine
-    restart: "no"
-    ports:
-      - "5432:5432"
+    image: postgres:14
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: 12345
-      POSTGRES_DB: engl
-    volumes:
-      - "01-simple-alchemy-postgres:/var/lib/postgresql/data"
-
-  pgadmin:
-    image: dpage/pgadmin4:latest
-    restart: "no"
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
     ports:
-      - "8080:80"
-    environment:
-      PGADMIN_DEFAULT_EMAIL: a@a.com
-      PGADMIN_DEFAULT_PASSWORD: pgadmin
+      - "${DB_PORT}:5432"
     volumes:
-      - "01-simple-alchemy-pgadmin:/var/lib/pgadmin"
-    depends_on:
-      - postgres
-
-  web:
+      - postgres_data:/var/lib/postgresql/data
+  app:
     build:
       context: .
       dockerfile: Dockerfile
-    restart: always
+    environment:
+      DATABASE_URL: postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}
+      BOT_TOKEN: ${BOT_TOKEN}
+      ADMIN_ID: ${ADMIN_ID}
     ports:
-      - "8000:8000"
+      - "${API_PORT}:8000"
     depends_on:
       - postgres
-    environment:
-      DATABASE_URL: postgres://postgres:12345@postgres:5432/engl
-
-  nginx:
-    image: nginx:latest
-    restart: always
-    ports:
-      - "80:80"
-    volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
-    depends_on:
-      - web
-
   migrate:
     build:
       context: .
@@ -56,10 +31,80 @@ services:
     depends_on:
       - postgres
     environment:
-      DATABASE_URL: postgres://postgres:12345@postgres:5432/engl
+      DATABASE_URL: postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}
     volumes:
       - .:/app
 
 volumes:
-  01-simple-alchemy-pgadmin:
-  01-simple-alchemy-postgres:
+  postgres_data:
+
+
+
+
+# version: '3.11'
+
+# services:
+#   postgres:
+#     image: postgres:14-alpine
+#     restart: "no"
+#     ports:
+#       - "5432:5432"
+#     environment:
+#       POSTGRES_USER: postgres
+#       POSTGRES_PASSWORD: 12345
+#       POSTGRES_DB: engl
+#     volumes:
+#       - "01-simple-alchemy-postgres:/var/lib/postgresql/data"
+
+#   pgadmin:
+#     image: dpage/pgadmin4:latest
+#     restart: "no"
+#     ports:
+#       - "8080:80"
+#     environment:
+#       PGADMIN_DEFAULT_EMAIL: a@a.com
+#       PGADMIN_DEFAULT_PASSWORD: pgadmin
+#     volumes:
+#       - "01-simple-alchemy-pgadmin:/var/lib/pgadmin"
+#     depends_on:
+#       - postgres
+
+#   web:
+#     build:
+#       context: .
+#       dockerfile: Dockerfile
+#     restart: always
+#     ports:
+#       - "8000:8000"
+#     depends_on:
+#       - postgres
+#     environment:
+#       DATABASE_URL: postgres://postgres:12345@postgres:5432/engl
+
+#   nginx:
+#     image: nginx:latest
+#     restart: always
+#     ports:
+#       - "80:80"
+#     volumes:
+#       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+#     depends_on:
+#       - web
+
+#   migrate:
+#     build:
+#       context: .
+#       dockerfile: Dockerfile
+#     command: ["poetry", "run", "alembic", "upgrade", "head"]
+#     depends_on:
+#       - postgres
+#     environment:
+#       DATABASE_URL: postgres://postgres:12345@postgres:5432/engl
+#     volumes:
+#       - .:/app
+
+# volumes:
+#   01-simple-alchemy-pgadmin:
+#   01-simple-alchemy-postgres:
+
+
