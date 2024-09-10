@@ -8,6 +8,7 @@ from datetime import date, datetime, time, timedelta
 from app.core.db_helper import db_helper
 from app.tgbot.api.service.user_service import UsersService
 from app.tgbot.config import templates
+from app.tgbot.api.utils import send_newletter_notification
 
 
 router = APIRouter(
@@ -61,4 +62,40 @@ async def get_users(
             "request": request,
             "users": users,
         },
+    )
+
+
+@router.get("/newsletter/", response_class=HTMLResponse)
+async def get_newsletter(
+    request: Request,
+    session: Annotated[
+        AsyncSession,
+        Depends(db_helper.get_db),
+    ],
+):
+    return templates.TemplateResponse(
+        "newsletter.html",
+        {
+            "request": request,
+        },
+    )
+
+
+@router.post("/send-newsletter/")
+async def create_newsletter(
+    session: Annotated[
+        AsyncSession,
+        Depends(db_helper.get_db),
+    ],
+    message: str = Form(...),
+):
+    try:
+        tg_ids = await UsersService(session).get_users_tg_id()
+    except Exception as exx:
+        print(exx)
+
+    await send_newletter_notification(tg_ids, message)
+
+    return RedirectResponse(
+        url="/lessons/get-lessons", status_code=status.HTTP_302_FOUND
     )

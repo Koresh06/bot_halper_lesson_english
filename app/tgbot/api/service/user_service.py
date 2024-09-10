@@ -34,6 +34,10 @@ class UsersService:
         result: Result = await self.session.scalar(stmt)
         return result
 
+    async def get_users_tg_id(self) -> List[User]:
+        stmt = select(User.tg_id).order_by(desc(User.id))
+        result: Result = await self.session.scalars(stmt)
+        return result
 
 
     

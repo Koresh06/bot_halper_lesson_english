@@ -1,0 +1,17 @@
+{% include 'base.html' %}
+
+
+{% block content %}
+
+<div class="container mt-5">
+    <h2 class="text-center">Отправка рассылки пользователям</h2>
+    <form action="/users/send-newsletter" method="POST">
+        <div class="form-group">
+            <label for="message">Текст сообщения</label>
+            <textarea class="form-control" id="message" name="message" rows="5" placeholder="Введите текст рассылки" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Отправить</button>
+    </form>
+</div>
+
+{% endblock %}

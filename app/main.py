@@ -1,5 +1,6 @@
 from fastapi import FastAPI, status
 from fastapi.responses import RedirectResponse
+
 from app.tgbot.api.routers.lesson_router import router as lessons_router
 from app.tgbot.api.routers.user_router import router as users_router
 from app.tgbot.config import configure_static
@@ -7,6 +8,7 @@ from app.tgbot.config import configure_static
 app = FastAPI()
 
 configure_static(app)
+
 
 @app.get("/")
 async def root():

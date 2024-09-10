@@ -3,6 +3,7 @@ from datetime import date, time
 from aiogram.enums.parse_mode import ParseMode
 
 from app.tgbot.bot import bot
+from app.settings import settings
 
 
 async def send_lesson_notification(
@@ -22,3 +23,15 @@ async def send_lesson_notification(
         text=message,
         parse_mode=ParseMode.HTML
     )
+
+
+async def send_newletter_notification(tg_ids: list, message: str) -> None:
+    for id in tg_ids:
+        await bot.send_message(
+            chat_id=id,
+            text=message
+        )
+
+    await bot.send_message(chat_id=settings.bot.admin_id, text="Рассылка завершена успешно")
+    
+    
