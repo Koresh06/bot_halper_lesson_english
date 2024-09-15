@@ -16,7 +16,6 @@ class UserRepo(BaseRepo):
             return True
         return False
 
-
     async def add_user(self, tg_id: int, username: str, data: dict):
         try:
             new_user = User(
