@@ -13,17 +13,6 @@ RUN pip install poetry && poetry config virtualenvs.create false && poetry insta
 # Копируем все файлы проекта в контейнер
 COPY . /app
 
-# Экспортируем переменные среды (на случай если будет нужна база данных)
-ENV BOT_TOKEN=${BOT_TOKEN}
-ENV ADMIN_ID=${ADMIN_ID}
-ENV DB_USER=${DB_USER}
-ENV DB_PASSWORD=${DB_PASSWORD}
-ENV DB_HOST=${DB_HOST}
-ENV DB_PORT=${DB_PORT}
-ENV DB_NAME=${DB_NAME}
-ENV API_HOST=${API_HOST}
-ENV API_PORT=${API_PORT}
-ENV WEB_SERVER_ADMIN=${WEB_SERVER_ADMIN}
 
 # Открываем порт для FastAPI
 EXPOSE 8000
