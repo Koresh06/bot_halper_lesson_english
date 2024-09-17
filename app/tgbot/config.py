@@ -9,4 +9,4 @@ templates = Jinja2Templates(directory="app/tgbot/templates")
 
 # Функция для настройки статики
 def configure_static(app):
-    app.mount("/static", StaticFiles(directory="app/app/tgbot/static"), name="static")
+    app.mount("/static", StaticFiles(directory="app/tgbot/static"), name="static")
